@@ -1,6 +1,6 @@
 //
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
+// Taken from the original Cucumber CLI source.
+// Removed the System.exit() call from within the main method.
 //
 
 package io.cucumber.core.cli;
