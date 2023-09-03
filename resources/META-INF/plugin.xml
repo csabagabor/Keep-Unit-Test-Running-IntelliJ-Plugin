@@ -1,0 +1,84 @@
+<idea-plugin>
+    <id>Keep-Unit-Test-Running</id>
+    <name>Keep Unit Test Running</name>
+    <version>1.2</version>
+    <vendor
+            email="csabag.laszlo@gmail.com"
+            url="https://github.com/csabagabor">
+        Csaba Gabor
+    </vendor>
+
+    <category>Unit testing</category>
+
+    <description><![CDATA[
+
+
+<br>
+Run <b>JUnit or TestNG</b> tests in continuous mode -> no need to restart the whole app if you modify your tests -> be more productive. Works especially well with Spring and Cucumber.
+<br>
+
+
+<ul>How to use it:
+  <li><b>Click on the new debugger icon to start a test  </b></li>
+  <li>Make modifications to the test   </li>
+  <li>Rerun the test by clicking on the icon again  </li>
+</ul>
+
+<ul>Tips:
+  <li><b>If something is not working, reset the plugin by going to Tools -> Reset Keep Unit Test Running</b></li>
+  <li>You can rerun different tests as well, not just the one you ran initially, you can even rerun "the whole test class" or "a whole package"</li>
+  <li><b>Hotswap of tests after modification only works if you use the Debug runner</b> or if you use some other tool like DCEVM or JRebel (if your tests are written in Cucumber you don't need these tools and you can simply use the simple runner)</li>
+  <li><b>Adding</b> new tests and running them without restarting the app only works if you use DCEVM + HotswapAgent or JRebel, but if your tests are written in Cucumber you don't need these tools</li>
+  <li>If IntelliJ asks you if you want to reload modified classes, click on YES</li>
+</ul>
+
+Consider supporting me on:
+<a href="https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=VLNN8UADMYENQ">PayPal</a>
+or <a href="https://www.patreon.com/csabagabor?fan_landing=true">Patreon</a>
+    ]]></description>
+
+    <change-notes><![CDATA[
+
+        <p>1.0 (22-aug-2021)</p>
+        <ul>
+            <li>Initial version (works with JUnit, TestNG) </li>
+        </ul>
+
+         <p>1.1 (22-aug-2021)</p>
+        <ul>
+            <li>Make Plugin more responsive </li>
+        </ul>
+
+         <p>1.2 (26-jan-2022)</p>
+        <ul>
+            <li>Fix only for JUnit: working again in versions >= 2021.1 </li>
+        </ul>
+    ]]>
+    </change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="211"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+
+    <depends>JUnit</depends>
+    <depends>TestNG-J</depends>
+    <depends>com.intellij.modules.java</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <executor implementation="com.github.keepjunitrunning.executor.CustomRunnerExecutor"/>
+        <programRunner implementation="com.github.keepjunitrunning.runner.CustomRunner" order="first"/>
+        <executor implementation="com.github.keepjunitrunning.executor.CustomDebuggerExecutor"/>
+        <programRunner implementation="com.github.keepjunitrunning.runner.CustomDebuggerRunner" order="last"/>
+    </extensions>
+    <actions>
+
+        <action id="com.github.keepjunitrunning.action.ResetPluginAction"
+                class="com.github.keepjunitrunning.action.ResetPluginAction" text="Reset Keep Unit Test Running"
+                description="Reset Keep Unit Test Running" icon="/icons/reset.svg">
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt K"/>
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
+    </actions>
+</idea-plugin>
