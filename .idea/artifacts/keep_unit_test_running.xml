@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="keep-unit-test-running">
+    <output-path>$PROJECT_DIR$/out/artifacts/keep_unit_test_running</output-path>
+    <root id="archive" name="keep-unit-test-running.jar">
+      <element id="module-output" name="keep-unit-test-running" />
+    </root>
+  </artifact>
+</component>
