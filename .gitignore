@@ -1,5 +1,4 @@
 out/
-*.jar
 *.class
 !version/**
 .idea
