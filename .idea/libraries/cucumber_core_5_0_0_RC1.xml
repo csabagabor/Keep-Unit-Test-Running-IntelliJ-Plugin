@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="cucumber-core-5.0.0-RC1">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/version1.0/keep-unit-test-running/lib/cucumber-core-5.0.0-RC1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/cucumber-core-5.0.0-RC1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
