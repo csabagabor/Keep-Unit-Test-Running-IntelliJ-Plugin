@@ -4,6 +4,7 @@ import com.github.keepjunitrunning.ResourcesPlugin;
 import io.methvin.watcher.DirectoryChangeEvent;
 import io.methvin.watcher.DirectoryChangeListener;
 import io.methvin.watcher.DirectoryWatcher;
+import io.methvin.watcher.hashing.FileHasher;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,7 +89,7 @@ public class TestStarter {
             DirectoryChangeListener directoryChangeListener = getDirectoryChangeListener(solutionToStart, file);
             DirectoryWatcher directoryWatcher = DirectoryWatcher.builder()
                     .path(path)
-                    .fileHashing(false)
+                    .fileHasher(FileHasher.LAST_MODIFIED_TIME)
                     .listener(directoryChangeListener)
                     .build();
             directoryWatcher.watch();
