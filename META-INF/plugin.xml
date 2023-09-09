@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>Keep-Unit-Test-Running</id>
   <name>Keep Unit Test Running</name>
-  <version>1.2</version>
+  <version>1.3</version>
   <vendor
           email="csabag.laszlo@gmail.com"
           url="https://github.com/csabagabor">
@@ -52,6 +52,12 @@ or <a href="https://www.patreon.com/csabagabor?fan_landing=true">Patreon</a>
          <p>1.2 (26-jan-2022)</p>
         <ul>
             <li>Fix only for JUnit: working again in versions >= 2021.1 </li>
+        </ul>
+
+        <p>1.3 (9-sep-2023) (Thanks to Tom Wadzinski for the fixes)</p>
+        <ul>
+            <li>Fix: don't start additional processes after first run. </li>
+            <li>Fix: make plugin faster on macOS (no more delay after starting tests). </li>
         </ul>
     ]]>
   </change-notes>
