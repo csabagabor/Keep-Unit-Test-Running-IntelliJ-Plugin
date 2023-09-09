@@ -27,15 +27,25 @@ public class CustomDebuggerRunner extends GenericDebuggerRunner implements Commo
     protected @NotNull Promise<RunContentDescriptor> doExecuteAsync(@NotNull TargetEnvironmentAwareRunProfileState state, @NotNull ExecutionEnvironment env) throws ExecutionException {
         boolean wasRun = doPreExecute(state, env);
 
-        Promise<RunContentDescriptor> runContentDescriptorPromise = super.doExecuteAsync(state, env);
-
-        return runContentDescriptorPromise.thenAsync(runContentDescriptorResult -> {
+        final Promise<RunContentDescriptor> runContentDescriptorPromise;
+        if (wasRun) {
+            // Create a no-op promise, since we don't actually want to have IntelliJ start up a new process.
+            // Instead, we have already updated the default.txt file in doPreExecute(), which triggers the next run.
+            runContentDescriptorPromise = new AsyncPromise<>();
+        } else {
+            runContentDescriptorPromise = super.doExecuteAsync(state, env);
+        }
+        Promise<RunContentDescriptor> thenAsync = runContentDescriptorPromise.thenAsync(runContentDescriptorResult -> {
             RunContentDescriptor runContentDescriptor = wasRun ? null : runContentDescriptorResult;
             doPostExecute(state, env.getProject(), runContentDescriptor, wasRun);
             AsyncPromise<RunContentDescriptor> finalResultPromise = new AsyncPromise<>();
             finalResultPromise.setResult(runContentDescriptor);
             return finalResultPromise;
         });
+        if (wasRun) {
+            ((AsyncPromise)runContentDescriptorPromise).setResult(null);
+        }
+        return thenAsync;
     }
 
     @Override
