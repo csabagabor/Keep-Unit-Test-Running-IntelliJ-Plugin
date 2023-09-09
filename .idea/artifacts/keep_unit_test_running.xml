@@ -3,6 +3,10 @@
     <output-path>$PROJECT_DIR$/out/artifacts/keep_unit_test_running</output-path>
     <root id="archive" name="keep-unit-test-running.jar">
       <element id="module-output" name="keep-unit-test-running" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/directory-watcher-0.18.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/slf4j-api-1.7.36.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jna-5.12.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/slf4j-simple-1.7.36.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

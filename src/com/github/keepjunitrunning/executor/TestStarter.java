@@ -1,9 +1,12 @@
 package com.github.keepjunitrunning.executor;
 
 import com.github.keepjunitrunning.ResourcesPlugin;
-import com.sun.nio.file.SensitivityWatchEventModifier;
+import io.methvin.watcher.DirectoryChangeEvent;
+import io.methvin.watcher.DirectoryChangeListener;
+import io.methvin.watcher.DirectoryWatcher;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
@@ -82,36 +85,47 @@ public class TestStarter {
 
             Thread.sleep(50);
             TestStarter.log("path:" + path);
-            try (final WatchService watchService = FileSystems.getDefault().newWatchService()) {
-                path.register(watchService, new WatchEvent.Kind[]{StandardWatchEventKinds.ENTRY_MODIFY}, SensitivityWatchEventModifier.HIGH);
-                while (true) {
-                    final WatchKey wk = watchService.take();
-
-                    Thread.sleep(50);
-                    for (WatchEvent<?> event : wk.pollEvents()) {
-                        //we only register "ENTRY_MODIFY" so the context is always a Path.
-                        final Path changed = (Path) event.context();
-                        TestStarter.log("changed" + changed.toFile().getAbsolutePath());
-                        String[] params = Files.readAllLines(file.toPath(),
-                                Charset.defaultCharset()).stream()
-                                .filter(line -> !line.isEmpty())
-                                .toArray(String[]::new);
-                        TestStarter.log("testName: " + java.util.Arrays.toString(params));
-                        TestStarter.log("testName.length: " + params.length);
-
-                        solutionToStart.accept(params);
-                    }
-                    // reset the key
-                    boolean valid = wk.reset();
-                    if (!valid) {
-                        TestStarter.log("Key has been unregisterede");
-                    }
-                }
-            }
-
+            DirectoryChangeListener directoryChangeListener = getDirectoryChangeListener(solutionToStart, file);
+            DirectoryWatcher directoryWatcher = DirectoryWatcher.builder()
+                    .path(path)
+                    .fileHashing(false)
+                    .listener(directoryChangeListener)
+                    .build();
+            directoryWatcher.watch();
         } catch (Throwable e) {
             e.printStackTrace();
         }
+    }
+
+    private static DirectoryChangeListener getDirectoryChangeListener(Consumer<String[]> solutionToStart, File file) {
+        return new DirectoryChangeListener() {
+            boolean watching = true;
+            @Override
+            public void onEvent(DirectoryChangeEvent event) throws IOException {
+                switch (event.eventType()) {
+                    case MODIFY:
+                        final Path changed = event.path();
+                        log("changed:" + changed.toFile().getAbsolutePath());
+                        final String[] params2 = Files.readAllLines(file.toPath(),
+                                Charset.defaultCharset()).stream().filter(line -> !line.isEmpty()).toArray(String[]::new);
+                        log("testName: " + Arrays.toString(params2));
+                        log("testName.length: " + params2.length);
+                        solutionToStart.accept(params2);
+                        break;
+                    case CREATE:
+                        break;
+                    case DELETE:
+                        //Step the watcher when the file is deleted
+                        watching = false;
+                        break;
+                }
+            }
+
+            @Override
+            public boolean isWatching() {
+                return watching;
+            }
+        };
     }
 
     public static void log(String message) {

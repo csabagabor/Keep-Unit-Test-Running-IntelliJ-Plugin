@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="directory-watcher-0.18.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/directory-watcher-0.18.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.7.36.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jna-5.12.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-simple-1.7.36.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

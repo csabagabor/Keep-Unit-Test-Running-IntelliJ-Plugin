@@ -26,5 +26,8 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="cucumber-core-5.0.0-RC1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="junit5-rt" level="project" />
+    <orderEntry type="library" name="testng-plugin" level="project" />
+    <orderEntry type="library" name="directory-watcher-0.18.0" level="project" />
   </component>
 </module>
