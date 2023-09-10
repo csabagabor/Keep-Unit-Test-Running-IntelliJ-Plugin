@@ -18,10 +18,16 @@ Run <b>JUnit or TestNG</b> tests in continuous mode -> no need to restart the wh
 <br>
 
 
-<ul>How to use it:
+<ul>How to use it in Debug mode:
   <li><b>Click on the new debugger icon to start a test  </b></li>
   <li>Make modifications to the test   </li>
   <li>Rerun the test by clicking on the icon again  </li>
+  <li>Your IDE should reload the changed file after rerunning the test, if it doesn't happen, reload the file manually (in IntelliJ right click -> 'Compile and reload file' or build the whole project if multiple files were changed) </li>
+</ul>
+
+<ul>How to use it in Run mode:
+  <li><b>To use hotswap, you must use DCEVM or JRebel  </b></li>
+  <li>For DCEVM to work in Run mode, you need to create a file called hotswap-agent.properties under src/main/resources with the setting autoHotswap=true</li>
 </ul>
 
 <ul>Tips:
@@ -58,6 +64,7 @@ or <a href="https://www.patreon.com/csabagabor?fan_landing=true">Patreon</a>
         <ul>
             <li>Fix: don't start additional processes after first run. </li>
             <li>Fix: make plugin faster on macOS (no more delay after starting tests). </li>
+            <li>Fix: RUN mode works with IntelliJ >= 2021.1 </li>
         </ul>
     ]]>
     </change-notes>
